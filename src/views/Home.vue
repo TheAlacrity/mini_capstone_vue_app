@@ -22,14 +22,16 @@
     <h1>All Products</h1>
 
     <div v-for="product in products">
-
       <img v-bind:src="product.image_url" alt="">
-      <h2>Name: {{ product.name }}</h2>
+      <h2><router-link v-bind:to="'/products/' + product.id">Name: {{ product.name }} </router-link></h2>
+      <p>ID: {{ product.id }}</p>
+
+
       <div v-if="currentProduct === product">
         <p>Price: {{ product.price }}</p>
         <p>Description: {{ product.description }}</p>
 
-        <h3>Edit Product</h3>
+        <h5>Edit Product</h5>
         <div>
           <div>
             Name: <input v-model="product.name">
@@ -44,7 +46,6 @@
             Image URL: <input v-model="product.image_url">
           </div>
         </div>
-        <button v-on:click="updateProduct(product)">Update</button>
         <button v-on:click="destroyProduct(product)">Delete</button>
 
       </div>
@@ -107,6 +108,8 @@ export default {
       });
     },
     updateProduct: function(inputProduct) {
+      this.currentProduct = inputProduct;
+      
       var params = {
                      name: inputProduct.name,
                      price: inputProduct.price,
